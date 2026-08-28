@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -26,7 +27,8 @@ fun KioskTopBar(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = Spacing.screen, vertical = Spacing.md),
+                .padding(horizontal = Spacing.screen, vertical = Spacing.md)
+            .statusBarsPadding(),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Logo()

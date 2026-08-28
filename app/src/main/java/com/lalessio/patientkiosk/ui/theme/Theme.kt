@@ -1,57 +1,74 @@
 package com.lalessio.patientkiosk.ui.theme
 
-import android.os.Build
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.dynamicDarkColorScheme
-import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.graphics.Color
 
-private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+private val KioskColorScheme = lightColorScheme(
+    //--- Azione primaria: il rosso ---
+    primary = Accent,
+    onPrimary = Ground,
+    primaryContainer = AccentTint,
+    onPrimaryContainer = AccentDeep,
+    inversePrimary = AccentLight,
+
+    //--- Secondario e terziario: schema mono, tutto sull'inchiostro ---
+    secondary = Ink,
+    onSecondary = Ground,
+    secondaryContainer = Neutral200,
+    onSecondaryContainer = Ink,
+    tertiary = Ink,
+    onTertiary = Ground,
+    tertiaryContainer = Neutral200,
+    onTertiaryContainer = Ink,
+
+    //--- Fondi ---
+    background = Ground,
+    onBackground = Ink,
+    surface = Ground,
+    onSurface = Ink,
+    surfaceVariant = Surface,
+    onSurfaceVariant = InkMuted,
+    //Material tinge di primary le superfici "sollevate": qui il design è piatto
+    surfaceTint = Color.Transparent,
+
+    //--- Livelli di superficie usati dai componenti Material ---
+    surfaceBright = Ground,
+    surfaceDim = Neutral200,
+    surfaceContainerLowest = Ground,
+    surfaceContainerLow = Ground,
+    surfaceContainer = Surface,
+    surfaceContainerHigh = Neutral200,
+    surfaceContainerHighest = Neutral300,
+
+    //--- Inversi: usati da snackbar e tooltip ---
+    inverseSurface = Ink,
+    inverseOnSurface = Ground,
+
+    //--- Bordi ---
+    outline = Divider,
+    outlineVariant = Neutral300,
+
+    //--- Errori: rosso profondo, leggibile a testo piccolo ---
+    error = AccentDeep,
+    onError = Ground,
+    errorContainer = AccentTint,
+    onErrorContainer = AccentDeep,
+
+    scrim = Ink,
 )
 
-private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
-)
-
+/**
+ * Un solo tema chiaro. Niente dynamicColor: prenderebbe i colori dallo sfondo
+ * del telefono e cancellerebbe il rosso del progetto.
+ */
 @Composable
-fun PatientKioskTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
-    content: @Composable () -> Unit
-) {
-    val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
-
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
-    }
-
+fun PatientKioskTheme(content: @Composable () -> Unit) {
     MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
-        content = content
+        colorScheme = KioskColorScheme,
+        typography = KioskTypography,
+        shapes = KioskShapes,
+        content = content,
     )
 }

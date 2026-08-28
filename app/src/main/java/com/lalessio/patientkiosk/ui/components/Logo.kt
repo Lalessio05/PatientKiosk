@@ -9,7 +9,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.lalessio.patientkiosk.ui.theme.PatientKioskTheme
 
 @Composable
-//#TODO mi piacerebbe fosse più figo
 //Mandare modifier come parametro opzionale è l'equivalente di mettere un className in react, convenzione
 fun Logo(modifier: Modifier = Modifier) {
     Row(modifier = modifier) {
