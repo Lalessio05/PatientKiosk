@@ -26,7 +26,8 @@ fun Logo(modifier: Modifier = Modifier) {
 
 @Preview
 @Composable
-fun LogoPreview() {
+private fun LogoPreview() {
     PatientKioskTheme {
         Logo()
-    }}
+    }
+}

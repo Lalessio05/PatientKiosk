@@ -20,22 +20,22 @@ import com.lalessio.patientkiosk.ui.theme.Spacing
 @Composable
 fun KioskTopBar(
     modifier: Modifier = Modifier,
-    siglaQuestionario: String? = null,
-    codicePaziente: String? = null,
+    questionnaireId: String? = null,
+    patientCode: String? = null,
 ) {
     Column(modifier = modifier) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = Spacing.screen, vertical = Spacing.md)
-            .statusBarsPadding(),
+                .statusBarsPadding(),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Logo()
             Spacer(Modifier.weight(1f))
             val topBarText = listOfNotNull(
-                siglaQuestionario,
-                codicePaziente
+                questionnaireId,
+                patientCode
             )   //Ritorna una nuova lista contenente solo gli elementi non nulli
                 .joinToString(" · ")                                             //Joina i toSring di ogni elemento della lista
                 .ifEmpty { "Sala d'attesa" }                                                //Default
@@ -56,6 +56,6 @@ fun KioskTopBar(
 @Composable
 private fun KioskTopBarPreview() {
     PatientKioskTheme {
-        KioskTopBar(siglaQuestionario = "DLQI", codicePaziente = "PZ-4192")
+        KioskTopBar(questionnaireId = "DLQI", patientCode = "PZ-4192")
     }
 }

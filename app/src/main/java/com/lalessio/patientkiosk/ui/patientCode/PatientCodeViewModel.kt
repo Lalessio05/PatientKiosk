@@ -13,7 +13,7 @@ class PatientCodeViewModel : ViewModel() {
     val uiState: StateFlow<PatientCodeUiState> = _uiState.asStateFlow()
 
     //Quando cambia il codice chiamo questo metodo, che chiama l'update sulla data class. L'equivalente di un setState (prev => ({...prev, x})), cioè prende lo stato e atomicamente modifica quello che gli stai dicendo di modificare
-    fun onCodeChange(newCode : String){
+    fun onCodeChange(newCode: String) {
         _uiState.update {
             it.copy(patientCode = newCode.uppercase(), showError = false)
         }
@@ -27,12 +27,11 @@ class PatientCodeViewModel : ViewModel() {
     }
 
     /** @return validated code, or null if not valid. **/
-    fun onForward() : String?{
+    fun onForward(): String? {
         val state = _uiState.value
-        return if (state.validCode){
+        return if (state.isCodeValid) {
             state.patientCode.trim()
-        }
-        else {
+        } else {
             _uiState.update { it.copy(showError = true) }
             null
         }
