@@ -20,7 +20,7 @@ import androidx.room.PrimaryKey
 )
 /**Una fascia, ad esempio da 0-10 lieve, 11-20 medio...**/
 data class BandEntity(
-    @PrimaryKey(autoGenerate = true) val id: Long,
+    @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val questionnaireId: String,
     val position: Int,
     //Indici inclusivi

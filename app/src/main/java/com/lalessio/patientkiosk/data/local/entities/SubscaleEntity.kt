@@ -30,4 +30,4 @@ data class SubscaleEntity(
     val label: String,
     /**Punteggio massimo di questa sottoscala*/
     val maxScore: Int
-    )
+)

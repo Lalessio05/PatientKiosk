@@ -1,0 +1,102 @@
+{
+  "version": "1.0",
+  "questionnaires": [
+    {
+      "id": "DLQI",
+      "name": "Dermatology Life Quality Index",
+      "desc": "Impatto della malattia della pelle sulla qualità della vita nell’ultima settimana.",
+      "recall": "Nell’ultima settimana",
+      "scale": 1,
+      "max": 30,
+      "source": "Finlay AY, Khan GK. Dermatology Life Quality Index (DLQI), Clin Exp Dermatol 1994.",
+      "options": [
+        { "label": "Per niente", "points": 0 },
+        { "label": "Poco", "points": 1 },
+        { "label": "Abbastanza", "points": 2 },
+        { "label": "Moltissimo", "points": 3 }
+      ],
+      "questions": [
+        { "text": "Quanto prurito, dolore o bruciore ha sentito sulla pelle?" },
+        { "text": "Quanto si è sentito imbarazzato o a disagio a causa della pelle?" },
+        { "text": "Quanto la pelle ha interferito con la spesa o i lavori di casa?" },
+        { "text": "Quanto la pelle ha influenzato la scelta dei vestiti da indossare?" },
+        { "text": "Quanto la pelle ha influenzato le attività sociali o del tempo libero?" },
+        { "text": "Quanto la pelle le ha reso difficile praticare uno sport?" },
+        { "text": "Quanto la pelle le ha impedito di lavorare o di studiare?" },
+        { "text": "Quanto la pelle ha creato problemi con partner, amici o parenti?" },
+        { "text": "Quanto la pelle ha causato difficoltà nella vita sessuale?" },
+        { "text": "Quanto la cura della pelle è stata un problema (tempo, disordine in casa)?" }
+      ],
+      "bands": [
+        { "label": "Nessun effetto", "min": 0, "max": 1, "note": "Il punteggio non indica un impatto rilevante della malattia cutanea." },
+        { "label": "Effetto lieve", "min": 2, "max": 5, "note": "Impatto contenuto: utile monitorare nel tempo." },
+        { "label": "Effetto moderato", "min": 6, "max": 10, "note": "Impatto percepibile su attività quotidiane e relazioni." },
+        { "label": "Effetto forte", "min": 11, "max": 20, "note": "Impatto rilevante: da discutere con il dermatologo durante la visita." },
+        { "label": "Effetto molto forte", "min": 21, "max": 30, "note": "Impatto estremamente rilevante: valutazione clinica prioritaria." }
+      ]
+    },
+    {
+      "id": "WHO-5",
+      "name": "WHO-5 Well-Being Index",
+      "desc": "Questionario breve sul benessere psicologico nelle ultime due settimane.",
+      "recall": "Nelle ultime due settimane",
+      "scale": 4,
+      "max": 100,
+      "source": "WHO-5 Well-Being Index, WHO Regional Office for Europe, 1998.",
+      "options": [
+        { "label": "Mai", "points": 0 },
+        { "label": "Raramente", "points": 1 },
+        { "label": "Meno di metà del tempo", "points": 2 },
+        { "label": "Più di metà del tempo", "points": 3 },
+        { "label": "Quasi sempre", "points": 4 },
+        { "label": "Sempre", "points": 5 }
+      ],
+      "questions": [
+        { "text": "Mi sono sentito allegro e di buon umore." },
+        { "text": "Mi sono sentito calmo e rilassato." },
+        { "text": "Mi sono sentito attivo e pieno di energia." },
+        { "text": "Mi sono svegliato sentendomi fresco e riposato." },
+        { "text": "La mia vita quotidiana è stata piena di cose interessanti." }
+      ],
+      "bands": [
+        { "label": "Benessere ridotto", "min": 0, "max": 28, "note": "Punteggio basso: indicato un approfondimento clinico." },
+        { "label": "Segnale di allerta", "min": 29, "max": 50, "note": "Sotto 50 punti si consiglia uno screening per ansia o depressione." },
+        { "label": "Benessere adeguato", "min": 51, "max": 100, "note": "Il punteggio non segnala criticità nel periodo considerato." }
+      ]
+    },
+    {
+      "id": "HADS",
+      "name": "Hospital Anxiety and Depression Scale",
+      "desc": "Screening di ansia e depressione: due sottoscale da 7 domande ciascuna.",
+      "recall": "Come si è sentito nell’ultima settimana",
+      "scale": 1,
+      "max": 42,
+      "source": "Zigmond AS, Snaith RP. The Hospital Anxiety and Depression Scale, Acta Psychiatr Scand 1983.",
+      "subscales": [
+        { "key": "A", "label": "Ansia (HADS-A)", "max": 21 },
+        { "key": "D", "label": "Depressione (HADS-D)", "max": 21 }
+      ],
+      "bands": [
+        { "label": "Nella norma", "min": 0, "max": 7, "note": "Nessun segnale clinicamente rilevante su questa sottoscala." },
+        { "label": "Caso borderline", "min": 8, "max": 10, "note": "Area di incertezza: da rivalutare nel colloquio clinico." },
+        { "label": "Caso probabile", "min": 11, "max": 21, "note": "Punteggio elevato: approfondimento specialistico consigliato." }
+      ],
+      "questions": [
+        { "subscale": "A", "text": "Mi sento teso o sotto pressione.", "options": [ { "label": "Mai", "points": 0 }, { "label": "Di tanto in tanto", "points": 1 }, { "label": "Molto spesso", "points": 2 }, { "label": "Quasi sempre", "points": 3 } ] },
+        { "subscale": "D", "text": "Mi piacciono ancora le cose che mi piacevano un tempo.", "options": [ { "label": "Come sempre", "points": 0 }, { "label": "Non così tanto", "points": 1 }, { "label": "Solo un poco", "points": 2 }, { "label": "Quasi per nulla", "points": 3 } ] },
+        { "subscale": "A", "text": "Ho la sensazione che stia per succedere qualcosa di terribile.", "options": [ { "label": "Per nulla", "points": 0 }, { "label": "Un poco, ma non mi preoccupa", "points": 1 }, { "label": "Sì, ma non è molto forte", "points": 2 }, { "label": "Sì, molto forte", "points": 3 } ] },
+        { "subscale": "D", "text": "Riesco a ridere e a vedere il lato divertente delle cose.", "options": [ { "label": "Come sempre", "points": 0 }, { "label": "Non così tanto ora", "points": 1 }, { "label": "Decisamente meno ora", "points": 2 }, { "label": "Per nulla", "points": 3 } ] },
+        { "subscale": "A", "text": "Ho la testa piena di preoccupazioni.", "options": [ { "label": "Solo occasionalmente", "points": 0 }, { "label": "Di tanto in tanto", "points": 1 }, { "label": "Spesso", "points": 2 }, { "label": "Molto spesso", "points": 3 } ] },
+        { "subscale": "D", "text": "Mi sento di buon umore.", "options": [ { "label": "Quasi sempre", "points": 0 }, { "label": "A volte", "points": 1 }, { "label": "Non spesso", "points": 2 }, { "label": "Mai", "points": 3 } ] },
+        { "subscale": "A", "text": "Riesco a stare seduto tranquillo e a sentirmi rilassato.", "options": [ { "label": "Sì, sempre", "points": 0 }, { "label": "Di solito sì", "points": 1 }, { "label": "Non spesso", "points": 2 }, { "label": "Per nulla", "points": 3 } ] },
+        { "subscale": "D", "text": "Mi sento come rallentato nei movimenti e nei pensieri.", "options": [ { "label": "Per nulla", "points": 0 }, { "label": "A volte", "points": 1 }, { "label": "Molto spesso", "points": 2 }, { "label": "Quasi sempre", "points": 3 } ] },
+        { "subscale": "A", "text": "Provo una sensazione di paura, come un nodo allo stomaco.", "options": [ { "label": "Per nulla", "points": 0 }, { "label": "A volte", "points": 1 }, { "label": "Molto spesso", "points": 2 }, { "label": "Quasi sempre", "points": 3 } ] },
+        { "subscale": "D", "text": "Ho perso interesse per il mio aspetto fisico.", "options": [ { "label": "Me ne curo come sempre", "points": 0 }, { "label": "Forse un po’ meno", "points": 1 }, { "label": "Non me ne curo come dovrei", "points": 2 }, { "label": "Sì, del tutto", "points": 3 } ] },
+        { "subscale": "A", "text": "Mi sento irrequieto, come se dovessi sempre muovermi.", "options": [ { "label": "Per nulla", "points": 0 }, { "label": "Non molto", "points": 1 }, { "label": "Abbastanza", "points": 2 }, { "label": "Sì, molto", "points": 3 } ] },
+        { "subscale": "D", "text": "Guardo con piacere alle cose che devo fare.", "options": [ { "label": "Come sempre", "points": 0 }, { "label": "Un po’ meno di prima", "points": 1 }, { "label": "Decisamente meno di prima", "points": 2 }, { "label": "Quasi mai", "points": 3 } ] },
+        { "subscale": "A", "text": "Ho improvvise sensazioni di panico.", "options": [ { "label": "Per nulla", "points": 0 }, { "label": "Non molto spesso", "points": 1 }, { "label": "Abbastanza spesso", "points": 2 }, { "label": "Molto spesso", "points": 3 } ] },
+        { "subscale": "D", "text": "Riesco a godermi un buon libro, la radio o la televisione.", "options": [ { "label": "Spesso", "points": 0 }, { "label": "A volte", "points": 1 }, { "label": "Non spesso", "points": 2 }, { "label": "Molto raramente", "points": 3 } ] }
+      ]
+    }
+  ]
+}

@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -35,7 +36,9 @@ class MainActivity : ComponentActivity() {
             val questionnaires by questionnaireDao.observeQuestionnaires()
                 .collectAsStateWithLifecycle(initialValue = emptyList())
             val scope = rememberCoroutineScope()
-
+            LaunchedEffect(Unit) {
+                (context.applicationContext as KioskApplication).importer.importIfNeeded()
+            }
             PatientKioskTheme {
                 //viewModel() serve a creare il ViewModel e a ridarti la stessa istanza a ogni re-render
                 val viewModel: PatientCodeViewModel = viewModel()
