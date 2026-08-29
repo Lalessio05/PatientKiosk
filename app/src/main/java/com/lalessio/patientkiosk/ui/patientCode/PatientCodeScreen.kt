@@ -31,8 +31,7 @@ fun PatientCodeScreen(
     onRandomCode: () -> Unit,
     onForward: () -> Unit,
     modifier: Modifier = Modifier,
-
-    ) {
+) {
     Column(
         modifier = modifier
             .fillMaxSize()

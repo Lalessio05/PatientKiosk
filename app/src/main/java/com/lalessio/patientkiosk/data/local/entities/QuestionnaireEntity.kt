@@ -3,7 +3,6 @@ package com.lalessio.patientkiosk.data.local.entities
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-//#TODO Capire i commenti di ogni colonna, appena avrò un json lo capirò
 @Entity(tableName = "questionnaires")
 data class QuestionnaireEntity(
     @PrimaryKey val id: String,
