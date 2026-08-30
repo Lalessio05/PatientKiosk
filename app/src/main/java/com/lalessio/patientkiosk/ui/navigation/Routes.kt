@@ -15,4 +15,6 @@ object Routes {
     const val RESULT_ROUTE = "result/{sessionId}"
     fun result(sessionID: Long) = "result/$sessionID"
 
+    const val SENT_TO_DOCTOR_ROUTE = "sendToDoctor/{patientCode}"
+    fun sentToDoctor(patientCode: String) = "sendToDoctor/$patientCode"
 }

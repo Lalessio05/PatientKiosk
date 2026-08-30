@@ -38,8 +38,7 @@ class MainActivity : ComponentActivity() {
 //#TODO Topbar
 //#TODO Riorganizzare meglio i file nelle folder e separarli, in linea generale un file per classe
 //#TODO Rinominare QuestionnaireListUiState e viewModel dato che servono anche a sources
-//#TODO Valutare se cambiare font
-/*
+/*#TODO Valutare se cambiare font
 private val provider = GoogleFont.Provider(
     providerAuthority = "com.google.android.gms.fonts",
     providerPackage = "com.google.android.gms",
@@ -56,3 +55,4 @@ types.kt
 
 dipendenza androidx.compose.ui:ui-text-google-fonts
  */
+//#TODO Sostituire il carattere della freccetta con le icone di Material

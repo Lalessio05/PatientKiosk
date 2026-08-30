@@ -12,7 +12,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.lalessio.patientkiosk.ui.navigation.Routes.RESULT_ROUTE
+import com.lalessio.patientkiosk.ui.navigation.Routes.SENT_TO_DOCTOR_ROUTE
 import com.lalessio.patientkiosk.ui.navigation.Routes.result
+import com.lalessio.patientkiosk.ui.navigation.Routes.sentToDoctor
 import com.lalessio.patientkiosk.ui.patientCode.PatientCodeScreen
 import com.lalessio.patientkiosk.ui.patientCode.PatientCodeUiState
 import com.lalessio.patientkiosk.ui.patientCode.PatientCodeViewModel
@@ -23,6 +25,7 @@ import com.lalessio.patientkiosk.ui.questionnaireList.QuestionnaireListUiState
 import com.lalessio.patientkiosk.ui.questionnaireList.QuestionnaireListViewModel
 import com.lalessio.patientkiosk.ui.result.ResultScreen
 import com.lalessio.patientkiosk.ui.result.ResultViewModel
+import com.lalessio.patientkiosk.ui.sendToDoctor.SentToDoctorScreen
 import com.lalessio.patientkiosk.ui.sources.SourcesScreen
 
 @Composable
@@ -111,10 +114,29 @@ fun KioskNavGraph(
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
             ResultScreen(
                 state = uiState,
-                onSend = viewModel::onSend,
+                onSend = {
+                    viewModel.onSend()
+                    navController.navigate(sentToDoctor(uiState.patientCode))
+                },
                 onRestart = {
                     navController.popBackStack(
                         Routes.QUESTIONNAIRE_LIST_ROUTE,
+                        inclusive = false
+                    )
+                }
+            )
+        }
+        composable(
+            route = SENT_TO_DOCTOR_ROUTE,
+            arguments = listOf(navArgument("patientCode") {type = NavType.StringType})
+        ) {
+            val patientCode: String = it.arguments?.getString("patientCode") ?: ""
+
+            SentToDoctorScreen(
+                patientCode = patientCode,
+                        onNewPatient = {
+                    navController.popBackStack(
+                        Routes.PATIENT_CODE_ROUTE,
                         inclusive = false
                     )
                 }
