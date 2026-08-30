@@ -11,6 +11,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.lalessio.patientkiosk.ui.navigation.Routes.RESULT_ROUTE
+import com.lalessio.patientkiosk.ui.navigation.Routes.result
 import com.lalessio.patientkiosk.ui.patientCode.PatientCodeScreen
 import com.lalessio.patientkiosk.ui.patientCode.PatientCodeUiState
 import com.lalessio.patientkiosk.ui.patientCode.PatientCodeViewModel
@@ -19,6 +21,8 @@ import com.lalessio.patientkiosk.ui.question.QuestionViewModel
 import com.lalessio.patientkiosk.ui.questionnaireList.QuestionnaireListScreen
 import com.lalessio.patientkiosk.ui.questionnaireList.QuestionnaireListUiState
 import com.lalessio.patientkiosk.ui.questionnaireList.QuestionnaireListViewModel
+import com.lalessio.patientkiosk.ui.result.ResultScreen
+import com.lalessio.patientkiosk.ui.result.ResultViewModel
 import com.lalessio.patientkiosk.ui.sources.SourcesScreen
 
 @Composable
@@ -58,7 +62,7 @@ fun KioskNavGraph(
 
             QuestionnaireListScreen(
                 state = uiState,
-                onQuestionnaireSelected = { id: String->
+                onQuestionnaireSelected = { id: String ->
                     navController.navigate(Routes.question(patientCode, id))
                 },
                 onBack = { navController.popBackStack() },
@@ -89,13 +93,31 @@ fun KioskNavGraph(
                 onAnswerSelected = viewModel::onAnswerSelected,
                 onNext = {
                     if (uiState.isLastQuestion) {
-                        //Qui andrà il risultato
+                        navController.navigate(result(uiState.sessionId))
                     } else viewModel.onNext()
                 },
                 onPrevious = {
                     if (uiState.currentIndex == 0) navController.popBackStack()
                     else viewModel.onPrevious()
                 },
+            )
+        }
+        composable(
+            route = RESULT_ROUTE,
+            arguments = listOf(navArgument("sessionId") { type = NavType.LongType })
+        )
+        {
+            val viewModel: ResultViewModel = hiltViewModel()
+            val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+            ResultScreen(
+                state = uiState,
+                onSend = viewModel::onSend,
+                onRestart = {
+                    navController.popBackStack(
+                        Routes.QUESTIONNAIRE_LIST_ROUTE,
+                        inclusive = false
+                    )
+                }
             )
         }
     }

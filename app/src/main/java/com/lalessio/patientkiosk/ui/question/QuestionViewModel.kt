@@ -29,13 +29,20 @@ class QuestionViewModel @Inject constructor(
 
     //Tenuti fuori dallo stato UI: servono al ViewModel, non alla schermata
     private var questionnaire: Questionnaire? = null
-    private var sessionId: Long = 0
     private var answers: Map<Int, Int> = emptyMap()
 
     init {
         viewModelScope.launch {
-            questionnaire = questionnaireRepository.loadQuestionnaire(questionnaireId) ?: return@launch
-            sessionId = sessionRepository.start(patientCode, questionnaireId)
+            questionnaire =
+                questionnaireRepository.loadQuestionnaire(questionnaireId) ?: return@launch
+            _uiState.update {
+                it.copy(
+                    sessionId = sessionRepository.start(
+                        patientCode,
+                        questionnaireId
+                    )
+                )
+            }
             render(index = 0)
         }
     }
@@ -46,7 +53,7 @@ class QuestionViewModel @Inject constructor(
         _uiState.update { it.copy(selectedOption = optionIndex, pendingAutoAdvance = true) }
 
         viewModelScope.launch {
-            sessionRepository.saveAnswer(sessionId, index, optionIndex)
+            sessionRepository.saveAnswer(_uiState.value.sessionId, index, optionIndex)
         }
     }
 
@@ -54,7 +61,12 @@ class QuestionViewModel @Inject constructor(
         val index = _uiState.value.currentIndex
         if (index < (questionnaire?.questions?.size ?: 0) - 1) {
             render(index + 1)
-            viewModelScope.launch { sessionRepository.saveCurrentIndex(sessionId, index + 1) }
+            viewModelScope.launch {
+                sessionRepository.saveCurrentIndex(
+                    _uiState.value.sessionId,
+                    index + 1
+                )
+            }
         }
     }
 
@@ -62,7 +74,12 @@ class QuestionViewModel @Inject constructor(
         val index = _uiState.value.currentIndex
         if (index > 0) {
             render(index - 1)
-            viewModelScope.launch { sessionRepository.saveCurrentIndex(sessionId, index - 1) }
+            viewModelScope.launch {
+                sessionRepository.saveCurrentIndex(
+                    _uiState.value.sessionId,
+                    index - 1
+                )
+            }
         }
     }
 

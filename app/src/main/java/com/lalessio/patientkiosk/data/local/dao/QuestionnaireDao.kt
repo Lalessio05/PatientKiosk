@@ -36,6 +36,9 @@ interface QuestionnaireDao {
     @Query("SELECT * FROM subscales WHERE questionnaireId = :questionnaireId ORDER BY position")
     suspend fun getSubscales(questionnaireId: String): List<SubscaleEntity>
 
+    @Query("SELECT * FROM bands WHERE questionnaireId = :questionnaireId ORDER BY position")
+    suspend fun getBands(questionnaireId: String): List<BandEntity>
+
     @Insert
     suspend fun insertQuestions(questions: List<QuestionEntity>)
 

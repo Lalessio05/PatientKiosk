@@ -3,6 +3,7 @@ package com.lalessio.patientkiosk.ui.question
 import com.lalessio.patientkiosk.domain.AnswerOption
 
 data class QuestionUiState(
+    val sessionId: Long = 0,
     val questionnaireName: String = "",
     val questionnaireId: String = "",
     val recall: String = "",

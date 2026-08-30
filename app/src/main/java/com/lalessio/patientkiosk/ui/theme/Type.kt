@@ -17,6 +17,10 @@ internal val KioskTypography = Typography(
         fontFamily = Display, fontWeight = FontWeight.ExtraBold,
         fontSize = 34.sp, lineHeight = 38.sp, letterSpacing = (-0.5).sp,
     ),
+    displayLarge = TextStyle(
+        fontFamily = Display, fontWeight = FontWeight.ExtraBold,
+        fontSize = 64.sp, lineHeight = 56.sp, letterSpacing = (-2).sp,
+    ),
     //Testo della domanda: minimo 20sp per il requisito di usabilità
     headlineSmall = TextStyle(
         fontFamily = Display, fontWeight = FontWeight.ExtraBold,
@@ -54,4 +58,5 @@ internal val KioskTypography = Typography(
         fontFamily = Display, fontWeight = FontWeight.SemiBold,
         fontSize = 12.sp, lineHeight = 16.sp, letterSpacing = 1.2.sp,
     ),
-)
+
+    )

@@ -3,6 +3,7 @@ package com.lalessio.patientkiosk.data.repo
 import com.lalessio.patientkiosk.data.json.QuestionnaireImporter
 import com.lalessio.patientkiosk.data.local.dao.QuestionnaireDao
 import com.lalessio.patientkiosk.domain.AnswerOption
+import com.lalessio.patientkiosk.domain.Band
 import com.lalessio.patientkiosk.domain.Question
 import com.lalessio.patientkiosk.domain.Questionnaire
 import com.lalessio.patientkiosk.domain.Subscale
@@ -60,6 +61,15 @@ class QuestionnaireRepository(
                 maxScore = it.maxScore
             )
         }
+
+        val bands: List<Band> = questionnaireDao.getBands(questionnaireId).map {
+            Band(
+                min = it.min,
+                max = it.max,
+                label = it.label,
+                note = it.note
+            )
+        }
         return Questionnaire(
             id = questionnaire.id,
             description = questionnaire.description,
@@ -69,7 +79,8 @@ class QuestionnaireRepository(
             subscales = subscales,
             recall = questionnaire.recall,
             scale = questionnaire.scale,
-            source = questionnaire.source
+            source = questionnaire.source,
+            bands = bands,
         )
     }
 }
