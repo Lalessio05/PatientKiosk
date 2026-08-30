@@ -1,6 +1,11 @@
 package com.lalessio.patientkiosk.ui.navigation
 
 object Routes {
+    //Nomi degli argomenti di navigazione: li leggono il NavGraph, i ViewModel (via SavedStateHandle) e la top bar
+    const val ARG_PATIENT_CODE = "patientCode"
+    const val ARG_QUESTIONNAIRE_ID = "questionnaireId"
+    const val ARG_SESSION_ID = "sessionId"
+
     const val PATIENT_CODE_ROUTE = "patientCode"
 
     const val QUESTIONNAIRE_LIST_ROUTE = "questionnaireList/{patientCode}"

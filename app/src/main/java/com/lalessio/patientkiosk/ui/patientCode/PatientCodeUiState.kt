@@ -1,4 +1,5 @@
 package com.lalessio.patientkiosk.ui.patientCode
+
 //Una data class è una tipo di classe pensata per contenere dati, la equal funziona anche se sono indirizzi diversi
 data class ResumableSession(
     val sessionId: Long,

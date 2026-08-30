@@ -1,6 +1,7 @@
 package com.lalessio.patientkiosk.ui.question
 
 import androidx.lifecycle.SavedStateHandle
+import com.lalessio.patientkiosk.ui.navigation.Routes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lalessio.patientkiosk.data.repo.QuestionnaireRepository
@@ -21,8 +22,8 @@ class QuestionViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
-    private val questionnaireId: String = savedStateHandle["questionnaireId"] ?: ""
-    private val patientCode: String = savedStateHandle["patientCode"] ?: ""
+    private val questionnaireId: String = savedStateHandle[Routes.ARG_QUESTIONNAIRE_ID] ?: ""
+    private val patientCode: String = savedStateHandle[Routes.ARG_PATIENT_CODE] ?: ""
 
     private val _uiState = MutableStateFlow(QuestionUiState())
     val uiState: StateFlow<QuestionUiState> = _uiState.asStateFlow()
@@ -31,13 +32,13 @@ class QuestionViewModel @Inject constructor(
     private var questionnaire: Questionnaire? = null
     private var answers: Map<Int, Int> = emptyMap()
 
-    private val resumableSessionId: Long = savedStateHandle["sessionId"] ?: 0
+    private val resumableSessionId: Long = savedStateHandle[Routes.ARG_SESSION_ID] ?: 0
 
     init {
         viewModelScope.launch {
             questionnaire =
                 questionnaireRepository.loadQuestionnaire(questionnaireId) ?: return@launch
-            if (resumableSessionId == 0L){
+            if (resumableSessionId == 0L) {
                 _uiState.update {
                     it.copy(
                         sessionId = sessionRepository.start(
@@ -57,7 +58,6 @@ class QuestionViewModel @Inject constructor(
                 render(session.currentIndex)
                 return@launch
             }
-
 
 
         }

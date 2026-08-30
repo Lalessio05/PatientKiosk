@@ -1,6 +1,5 @@
 package com.lalessio.patientkiosk.ui.patientCode
 
-import androidx.compose.runtime.LaunchedEffect
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lalessio.patientkiosk.data.repo.QuestionnaireRepository
@@ -49,6 +48,7 @@ class PatientCodeViewModel @Inject constructor(
             null
         }
     }
+
     fun onDiscardSession() {
         val session = _uiState.value.resumableSession ?: return
         viewModelScope.launch { sessionRepository.discard(session.sessionId) }
@@ -67,12 +67,13 @@ class PatientCodeViewModel @Inject constructor(
             }
 
             sessionRepository.observeResumable().collect { resumableSession ->
-                if (resumableSession == null){
+                if (resumableSession == null) {
                     _uiState.update { it.copy(resumableSession = null) }
                     return@collect
                 }
 
-                val questionnaire: Questionnaire? = questionnaireRepository.loadQuestionnaire(resumableSession.questionnaireId)
+                val questionnaire: Questionnaire? =
+                    questionnaireRepository.loadQuestionnaire(resumableSession.questionnaireId)
                 _uiState.update {
                     it.copy(
                         resumableSession =
@@ -80,7 +81,8 @@ class PatientCodeViewModel @Inject constructor(
                                 sessionId = resumableSession.id,
                                 patientCode = resumableSession.patientCode,
                                 questionnaireId = resumableSession.questionnaireId,
-                                questionnaireName = questionnaire?.name ?: resumableSession.questionnaireId,
+                                questionnaireName = questionnaire?.name
+                                    ?: resumableSession.questionnaireId,
                                 currentIndex = resumableSession.currentIndex,
                                 questionCount = questionnaire?.questions?.size ?: 0
                             )

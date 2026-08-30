@@ -1,6 +1,7 @@
 package com.lalessio.patientkiosk.ui.questionnaireList
 
 import androidx.lifecycle.SavedStateHandle
+import com.lalessio.patientkiosk.ui.navigation.Routes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lalessio.patientkiosk.data.repo.QuestionnaireRepository
@@ -18,7 +19,7 @@ class QuestionnaireListViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val patientCode: String = savedStateHandle["patientCode"] ?: ""
+    private val patientCode: String = savedStateHandle[Routes.ARG_PATIENT_CODE] ?: ""
     private val _uiState = MutableStateFlow(QuestionnaireListUiState())
     val uiState: StateFlow<QuestionnaireListUiState> = _uiState.asStateFlow()
 

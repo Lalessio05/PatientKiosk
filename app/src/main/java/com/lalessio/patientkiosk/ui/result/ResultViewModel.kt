@@ -1,6 +1,7 @@
 package com.lalessio.patientkiosk.ui.result
 
 import androidx.lifecycle.SavedStateHandle
+import com.lalessio.patientkiosk.ui.navigation.Routes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lalessio.patientkiosk.data.repo.QuestionnaireRepository
@@ -21,7 +22,7 @@ class ResultViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
-    private val sessionId: Long = savedStateHandle["sessionId"] ?: 0L
+    private val sessionId: Long = savedStateHandle[Routes.ARG_SESSION_ID] ?: 0L
 
     private val _uiState = MutableStateFlow(ResultUiState())
     val uiState: StateFlow<ResultUiState> = _uiState.asStateFlow()

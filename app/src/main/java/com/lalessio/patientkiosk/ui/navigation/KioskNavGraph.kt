@@ -68,12 +68,12 @@ fun KioskNavGraph(
         }
         composable(
             Routes.QUESTIONNAIRE_LIST_ROUTE,
-            arguments = listOf(navArgument("patientCode") { type = NavType.StringType }),
+            arguments = listOf(navArgument(Routes.ARG_PATIENT_CODE) { type = NavType.StringType }),
         ) {
             val viewModel: QuestionnaireListViewModel = hiltViewModel()
             val uiState: QuestionnaireListUiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-            val patientCode: String = it.arguments?.getString("patientCode") ?: ""
+            val patientCode: String = it.arguments?.getString(Routes.ARG_PATIENT_CODE) ?: ""
 
             QuestionnaireListScreen(
                 state = uiState,
@@ -96,9 +96,9 @@ fun KioskNavGraph(
         composable(
             route = Routes.QUESTION_ROUTE,
             arguments = listOf(
-                navArgument("patientCode") { type = NavType.StringType },
-                navArgument("questionnaireId") { type = NavType.StringType },
-                navArgument("sessionId") {
+                navArgument(Routes.ARG_PATIENT_CODE) { type = NavType.StringType },
+                navArgument(Routes.ARG_QUESTIONNAIRE_ID) { type = NavType.StringType },
+                navArgument(Routes.ARG_SESSION_ID) {
                     type = NavType.LongType
                     //Il nav non ammette null, mettiamo 0, tanto room parte da 1 con gli id
                     defaultValue = 0L
@@ -124,7 +124,7 @@ fun KioskNavGraph(
         }
         composable(
             route = RESULT_ROUTE,
-            arguments = listOf(navArgument("sessionId") { type = NavType.LongType })
+            arguments = listOf(navArgument(Routes.ARG_SESSION_ID) { type = NavType.LongType })
         )
         {
             val viewModel: ResultViewModel = hiltViewModel()
@@ -145,13 +145,13 @@ fun KioskNavGraph(
         }
         composable(
             route = SENT_TO_DOCTOR_ROUTE,
-            arguments = listOf(navArgument("patientCode") {type = NavType.StringType})
+            arguments = listOf(navArgument(Routes.ARG_PATIENT_CODE) { type = NavType.StringType })
         ) {
-            val patientCode: String = it.arguments?.getString("patientCode") ?: ""
+            val patientCode: String = it.arguments?.getString(Routes.ARG_PATIENT_CODE) ?: ""
 
             SentToDoctorScreen(
                 patientCode = patientCode,
-                        onNewPatient = {
+                onNewPatient = {
                     navController.popBackStack(
                         Routes.PATIENT_CODE_ROUTE,
                         inclusive = false
