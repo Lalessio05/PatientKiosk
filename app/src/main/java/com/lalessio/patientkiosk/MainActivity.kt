@@ -51,24 +51,3 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-//#TODO Risolvere gli altri todo in giro per il codice
-//#TODO Check generale UI rispetto al design
-//#TODO Riorganizzare meglio i file nelle folder e separarli, in linea generale un file per classe, ma parliamone
-//#TODO questionnaireList, sources e questionnaireCatalog si importano a vicenda: valutare se accorparli in un solo package
-/*#TODO cambiare font
-private val provider = GoogleFont.Provider(
-    providerAuthority = "com.google.android.gms.fonts",
-    providerPackage = "com.google.android.gms",
-    certificates = R.array.com_google_android_gms_fonts_certs,
-)
-
-private val Archivo = FontFamily(
-    Font(GoogleFont("Archivo"), provider, FontWeight.Normal),
-    Font(GoogleFont("Archivo"), provider, FontWeight.SemiBold),
-    Font(GoogleFont("Archivo"), provider, FontWeight.ExtraBold),
-)
-
-types.kt
-
-dipendenza androidx.compose.ui:ui-text-google-fonts
- */
