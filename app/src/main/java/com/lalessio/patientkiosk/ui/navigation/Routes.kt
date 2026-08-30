@@ -8,9 +8,9 @@ object Routes {
 
     const val SOURCES_ROUTE = "sources"
 
-    const val QUESTION_ROUTE = "question/{patientCode}/{questionnaireId}"
-    fun question(patientCode: String, questionnaireId: String) =
-        "question/$patientCode/$questionnaireId"
+    const val QUESTION_ROUTE = "question/{patientCode}/{questionnaireId}?sessionId={sessionId}"
+    fun question(patientCode: String, questionnaireId: String, sessionId: Long = 0L) =
+        "question/$patientCode/$questionnaireId?sessionId=$sessionId"
 
     const val RESULT_ROUTE = "result/{sessionId}"
     fun result(sessionID: Long) = "result/$sessionID"

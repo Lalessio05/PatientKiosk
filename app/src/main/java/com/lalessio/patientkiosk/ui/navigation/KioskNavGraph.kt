@@ -51,7 +51,19 @@ fun KioskNavGraph(
                     val code = viewModel.onForward()
                     if (code != null)
                         navController.navigate(Routes.questionnaireList(code))
-                }
+                },
+                onResume = {
+                    uiState.resumableSession?.let { session ->
+                        navController.navigate(
+                            Routes.question(
+                                patientCode = session.patientCode,
+                                questionnaireId = session.questionnaireId,
+                                sessionId = session.sessionId,
+                            )
+                        )
+                    }
+                },
+                onDiscardSession = viewModel::onDiscardSession,
             )
         }
         composable(
@@ -86,6 +98,11 @@ fun KioskNavGraph(
             arguments = listOf(
                 navArgument("patientCode") { type = NavType.StringType },
                 navArgument("questionnaireId") { type = NavType.StringType },
+                navArgument("sessionId") {
+                    type = NavType.LongType
+                    //Il nav non ammette null, mettiamo 0, tanto room parte da 1 con gli id
+                    defaultValue = 0L
+                }
             ),
         ) {
             val viewModel: QuestionViewModel = hiltViewModel()

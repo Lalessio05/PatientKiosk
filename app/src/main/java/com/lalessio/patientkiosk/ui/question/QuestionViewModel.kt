@@ -31,19 +31,35 @@ class QuestionViewModel @Inject constructor(
     private var questionnaire: Questionnaire? = null
     private var answers: Map<Int, Int> = emptyMap()
 
+    private val resumableSessionId: Long = savedStateHandle["sessionId"] ?: 0
+
     init {
         viewModelScope.launch {
             questionnaire =
                 questionnaireRepository.loadQuestionnaire(questionnaireId) ?: return@launch
-            _uiState.update {
-                it.copy(
-                    sessionId = sessionRepository.start(
-                        patientCode,
-                        questionnaireId
+            if (resumableSessionId == 0L){
+                _uiState.update {
+                    it.copy(
+                        sessionId = sessionRepository.start(
+                            patientCode,
+                            questionnaireId
+                        )
                     )
-                )
+                }
+                render(index = 0)
+                return@launch
             }
-            render(index = 0)
+            //Ripresa: recuperiamo risposte e posizione già salvate
+            val session = sessionRepository.find(resumableSessionId)
+            if (session != null) {
+                answers = session.answers
+                _uiState.update { it.copy(sessionId = session.id) }
+                render(session.currentIndex)
+                return@launch
+            }
+
+
+
         }
     }
 
