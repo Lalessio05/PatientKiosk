@@ -1,4 +1,4 @@
-package com.lalessio.patientkiosk.ui.questionnaireList
+package com.lalessio.patientkiosk.ui.sources
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -30,17 +30,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.lalessio.patientkiosk.data.repo.QuestionnaireSummary
 import com.lalessio.patientkiosk.ui.components.KioskTopBar
-import com.lalessio.patientkiosk.ui.components.QuestionnaireCard
+import com.lalessio.patientkiosk.ui.questionnaireList.QuestionnaireListUiState
 import com.lalessio.patientkiosk.ui.theme.PatientKioskTheme
 import com.lalessio.patientkiosk.ui.theme.Spacing
 
+//Riusiamo QuestionnaireListUiState perché i viewModel e gli UiState sarebbero esattamente uguali, trattando gli stessi elementi
 @Composable
-fun QuestionnaireListScreen(
+fun SourcesScreen(
     state: QuestionnaireListUiState,
-    onQuestionnaireSelected: (String) -> Unit,
     onBack: () -> Unit,
-    onSources: () -> Unit,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     when {
         //#TODO Estrarre in un componente
@@ -96,23 +95,38 @@ fun QuestionnaireListScreen(
                 ) {
                     item {
                         Text(
-                            text = "PASSO 2 DI 3",
-                            style = MaterialTheme.typography.labelMedium,
-                            color = MaterialTheme.colorScheme.primary
+                            text = "Fonti dei questionari",
+                            style = MaterialTheme.typography.headlineMedium
                         )
-                        Spacer(Modifier.height(Spacing.md))
-
+                        Spacer(Modifier.height(Spacing.sm))
                         Text(
-                            text = "Seleziona questionario",
-                            style = MaterialTheme.typography.displaySmall
+                            text = "I questionari sono caricati da questionnaires.json e provengono dalle pubblicazioni originali.",
+                            style = MaterialTheme.typography.labelMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
-                        Spacer(Modifier.height(Spacing.xl))
+                        Spacer(Modifier.height(Spacing.sm))
                     }
                     items(state.questionnaires) {
-                        QuestionnaireCard(
-                            questionnaire = it,
-                            onClick = { onQuestionnaireSelected(it.id) }
-                        )
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                        ) {
+                            HorizontalDivider(
+                                thickness = 2.dp,
+                                color = MaterialTheme.colorScheme.outline
+                            )
+                            Spacer(Modifier.height(Spacing.md))
+                            Text(
+                                text = "${it.id} - ${it.name}",
+                                style = MaterialTheme.typography.titleMedium
+                            )
+                            Spacer(Modifier.height(Spacing.xs))
+                            Text(
+                                text = it.source,
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
                     }
                 }
                 HorizontalDivider(thickness = 2.dp, color = MaterialTheme.colorScheme.outline)
@@ -123,8 +137,7 @@ fun QuestionnaireListScreen(
                         .padding(horizontal = Spacing.screen, vertical = Spacing.sm),
                     horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
-                    TextButton(onClick = onBack) { Text("← Cambia codice") }
-                    TextButton(onClick = onSources) { Text("Fonti") }
+                    TextButton(onClick = onBack) { Text("← Torna ai questionari") }
                 }
 
             }
@@ -132,70 +145,33 @@ fun QuestionnaireListScreen(
     }
 }
 
-
 @Preview
 @Composable
-private fun QuestionnaireListScreenLoadingPreview() {
+fun SourcesScreenPreview() {
     PatientKioskTheme {
         Scaffold(
             modifier = Modifier.fillMaxSize(),
             topBar = { KioskTopBar() }
         ) { innerPadding ->
-            QuestionnaireListScreen(
-                state = QuestionnaireListUiState(isLoading = true),
-                onQuestionnaireSelected = {},
-                onBack = {},
-                onSources = {},
-                modifier = Modifier.padding(innerPadding)
-            )
-        }
-    }
-}
-
-@Preview
-@Composable
-private fun QuestionnaireListScreenErrorPreview() {
-    PatientKioskTheme {
-        Scaffold(
-            modifier = Modifier.fillMaxSize(),
-            topBar = { KioskTopBar() }
-        ) { innerPadding ->
-            QuestionnaireListScreen(
-                state = QuestionnaireListUiState(isLoading = false, errorMessage = "Errore"),
-                onQuestionnaireSelected = {},
-                onBack = {},
-                onSources = {},
-                modifier = Modifier.padding(innerPadding)
-            )
-        }
-    }
-}
-
-@Preview
-@Composable
-private fun QuestionnaireListScreenPreview() {
-    PatientKioskTheme {
-        Scaffold(
-            modifier = Modifier.fillMaxSize(),
-            topBar = { KioskTopBar() }
-        ) { innerPadding ->
-            QuestionnaireListScreen(
+            SourcesScreen(
                 state = QuestionnaireListUiState(
                     isLoading = false,
                     questionnaires = listOf(
                         QuestionnaireSummary(
                             "DLQI", "Dermatology Life Quality Index",
-                            "Impatto della malattia della pelle sulla qualità della vita.", "", 10
+                            "Impatto della malattia della pelle sulla qualità della vita.",
+                            "WHO-5 Well-Being Index, WHO Regional Office for Europe, 1998.",
+                            10
                         ),
                         QuestionnaireSummary(
                             "WHO-5", "WHO-5 Well-Being Index",
-                            "Benessere psicologico nelle ultime due settimane.", "", 5
+                            "Benessere psicologico nelle ultime due settimane.",
+                            "Finlay AY, Khan GK. Dermatology Life Quality Index (DLQI), Clin Exp Dermatol 1994.",
+                            5
                         ),
-                    ),
+                    )
                 ),
-                onQuestionnaireSelected = {},
                 onBack = {},
-                onSources = {},
                 modifier = Modifier.padding(innerPadding)
             )
         }

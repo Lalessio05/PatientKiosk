@@ -1,12 +1,16 @@
 package com.lalessio.patientkiosk.ui.patientCode
 
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import javax.inject.Inject
 
-class PatientCodeViewModel : ViewModel() {
+@HiltViewModel
+
+class PatientCodeViewModel @Inject constructor() : ViewModel() {
 
     //un contenitore osservabile che ha sempre un valore corrente (.value) e notifica chi lo osserva a ogni cambiamento.
     private val _uiState = MutableStateFlow(PatientCodeUiState())

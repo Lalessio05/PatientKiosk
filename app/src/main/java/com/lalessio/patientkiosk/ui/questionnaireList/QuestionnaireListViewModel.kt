@@ -1,5 +1,6 @@
 package com.lalessio.patientkiosk.ui.questionnaireList
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lalessio.patientkiosk.data.repo.QuestionnaireRepository
@@ -13,8 +14,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class QuestionnaireListViewModel @Inject constructor(
-    private val repository: QuestionnaireRepository
+    private val repository: QuestionnaireRepository,
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
+
+    private val patientCode: String = savedStateHandle["patientCode"] ?: ""
     private val _uiState = MutableStateFlow(QuestionnaireListUiState())
     val uiState: StateFlow<QuestionnaireListUiState> = _uiState.asStateFlow()
 

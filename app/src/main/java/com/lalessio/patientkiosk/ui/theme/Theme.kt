@@ -36,7 +36,7 @@ private val KioskColorScheme = lightColorScheme(
     //--- Livelli di superficie usati dai componenti Material ---
     surfaceBright = Ground,
     surfaceDim = Neutral200,
-    surfaceContainerLowest = Ground,
+    surfaceContainerLowest = Color.White,
     surfaceContainerLow = Ground,
     surfaceContainer = Surface,
     surfaceContainerHigh = Neutral200,

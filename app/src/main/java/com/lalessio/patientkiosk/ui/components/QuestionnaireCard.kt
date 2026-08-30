@@ -1,5 +1,7 @@
 package com.lalessio.patientkiosk.ui.components
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,6 +14,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -22,7 +25,7 @@ import com.lalessio.patientkiosk.ui.theme.PatientKioskTheme
 import com.lalessio.patientkiosk.ui.theme.Spacing
 
 @Composable
-fun QuestionnaireRow(
+fun QuestionnaireCard(
     questionnaire: QuestionnaireSummary,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
@@ -30,17 +33,21 @@ fun QuestionnaireRow(
     Column(
         modifier
             .fillMaxWidth()
+            .background(MaterialTheme.colorScheme.surfaceContainerLowest)
+            .border(2.dp, MaterialTheme.colorScheme.onSurface)
+
             //Clickable rende tutta la colonna cliccabile
             .clickable(onClick = onClick)
             .semantics {
                 contentDescription =
                     "${questionnaire.name}, ${questionnaire.questionCount} domande"
             }
-            .padding(vertical = Spacing.lg)
+            .padding(Spacing.lg)
     ) {
         Row(
             modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.Bottom,
         ) {
             Text(
                 text = questionnaire.id,
@@ -48,34 +55,36 @@ fun QuestionnaireRow(
             )
 
             Text(
-                text = "${questionnaire.questionCount} domande",
-                style = MaterialTheme.typography.bodySmall,
+                text = "${questionnaire.questionCount} DOMANDE",
+                style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }
-        HorizontalDivider(thickness = 2.dp, color = MaterialTheme.colorScheme.outline)
-
+        HorizontalDivider(
+            modifier = Modifier.padding(vertical = Spacing.md),
+            thickness = 2.dp,
+            color = MaterialTheme.colorScheme.outline,
+        )
         Spacer(Modifier.height(Spacing.sm))
         Text(
             text = questionnaire.description,
-            style = MaterialTheme.typography.bodyMedium,
+            style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
         Spacer(Modifier.height(Spacing.md))
         Text(
             text = "Inizia →",
-            style = MaterialTheme.typography.labelLarge,
+            style = MaterialTheme.typography.labelMedium,
             color = MaterialTheme.colorScheme.primary,
         )
-        Spacer(Modifier.height(Spacing.lg))
     }
 }
 
 @Preview
 @Composable
-private fun QuestionnaireRowPreview() {
+private fun QuestionnaireCardPreview() {
     PatientKioskTheme {
-        QuestionnaireRow(
+        QuestionnaireCard(
             questionnaire = QuestionnaireSummary(
                 "DLQI", "Dermatology Life Quality Index",
                 "Impatto della malattia della pelle sulla qualità della vita.", "", 10

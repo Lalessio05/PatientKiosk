@@ -7,13 +7,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.lalessio.patientkiosk.ui.components.KioskTopBar
-import com.lalessio.patientkiosk.ui.questionnaireList.QuestionnaireListViewModel
+import com.lalessio.patientkiosk.ui.navigation.KioskNavGraph
 import com.lalessio.patientkiosk.ui.theme.PatientKioskTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,21 +19,22 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            PatientKioskTheme {
-                val viewModel: QuestionnaireListViewModel = hiltViewModel()
-                val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
-                Scaffold(
-                    modifier = Modifier.fillMaxSize(),
-                    topBar = { KioskTopBar() },
-                ) { innerPadding ->
-                    Text(
-                        text = "Questionari: ${uiState.questionnaires.size} — " +
-                                "loading ${uiState.isLoading} — errore ${uiState.errorMessage}",
-                        modifier = Modifier.padding(innerPadding),
-                    )
+            setContent {
+                PatientKioskTheme {
+                    Scaffold(
+                        modifier = Modifier.fillMaxSize(),
+                        topBar = { KioskTopBar() },
+                    ) { innerPadding ->
+                        KioskNavGraph(modifier = Modifier.padding(innerPadding))
+                    }
                 }
             }
         }
     }
 }
+
+//#TODO Risolvere gli altri todo in giro per il codice
+//#TODO Check generale UI rispetto al design
+//#TODO Topbar
+//#TODO Riorganizzare meglio i file nelle folder e separarli, in linea generale un file per classe
+//#TODO Rinominare QuestionnaireListUiState e viewModel dato che servono anche a sources
