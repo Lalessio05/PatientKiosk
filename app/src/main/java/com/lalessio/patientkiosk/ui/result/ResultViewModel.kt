@@ -40,7 +40,7 @@ class ResultViewModel @Inject constructor(
                     questionnaireName = questionnaire.name,
                     patientCode = session.patientCode,
                     blocks = result.blocks,
-                    isQuesionnaireIncomplete = !result.isComplete,
+                    isQuestionnaireIncomplete = !result.isComplete,
                     isLoading = false,
                 )
             }

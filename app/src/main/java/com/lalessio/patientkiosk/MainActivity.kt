@@ -54,7 +54,7 @@ class MainActivity : ComponentActivity() {
 //#TODO Risolvere gli altri todo in giro per il codice
 //#TODO Check generale UI rispetto al design
 //#TODO Riorganizzare meglio i file nelle folder e separarli, in linea generale un file per classe, ma parliamone
-//#TODO Rinominare QuestionnaireListUiState e viewModel dato che servono anche a sources e spostarli(?)
+//#TODO questionnaireList, sources e questionnaireCatalog si importano a vicenda: valutare se accorparli in un solo package
 /*#TODO cambiare font
 private val provider = GoogleFont.Provider(
     providerAuthority = "com.google.android.gms.fonts",
@@ -72,4 +72,3 @@ types.kt
 
 dipendenza androidx.compose.ui:ui-text-google-fonts
  */
-//#TODO Sostituire il carattere della freccetta con le icone di Material

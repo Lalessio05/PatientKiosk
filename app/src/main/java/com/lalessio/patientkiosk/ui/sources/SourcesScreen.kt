@@ -1,7 +1,6 @@
 package com.lalessio.patientkiosk.ui.sources
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -11,11 +10,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ErrorOutline
-import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -23,63 +22,32 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.lalessio.patientkiosk.data.repo.QuestionnaireSummary
+import com.lalessio.patientkiosk.ui.components.ErrorBox
 import com.lalessio.patientkiosk.ui.components.KioskTopBar
-import com.lalessio.patientkiosk.ui.questionnaireList.QuestionnaireListUiState
+import com.lalessio.patientkiosk.ui.components.LoadingBox
+import com.lalessio.patientkiosk.ui.questionnaireCatalog.QuestionnaireCatalogUiState
 import com.lalessio.patientkiosk.ui.theme.PatientKioskTheme
 import com.lalessio.patientkiosk.ui.theme.Spacing
 
-//Riusiamo QuestionnaireListUiState perché i viewModel e gli UiState sarebbero esattamente uguali, trattando gli stessi elementi
+//Riusiamo QuestionnaireCatalogUiState perché i viewModel e gli UiState sarebbero esattamente uguali, trattando gli stessi elementi
 @Composable
 fun SourcesScreen(
-    state: QuestionnaireListUiState,
+    state: QuestionnaireCatalogUiState,
     onBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     when {
-        //#TODO Estrarre in un componente
-        state.isLoading -> {
-            Box(modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                CircularProgressIndicator()
-            }
-        }
+        state.isLoading -> LoadingBox(modifier)
 
-        //#TODO Estrarre in un componente
-        state.errorMessage != null -> {
-            Column(
-                modifier = modifier
-                    .fillMaxSize()
-                    .padding(Spacing.screen),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                Icon(
-                    imageVector = Icons.Outlined.ErrorOutline,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.error,
-                    modifier = Modifier.size(64.dp),
-                )
-
-                Spacer(Modifier.height(Spacing.lg))
-                Text(
-                    text = "Impossibile caricare i questionari",
-                    style = MaterialTheme.typography.titleLarge,
-                    textAlign = TextAlign.Center,
-                )
-                Spacer(Modifier.height(Spacing.sm))
-                Text(
-                    text = state.errorMessage,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    textAlign = TextAlign.Center,
-                )
-            }
-        }
+        state.errorMessage != null -> ErrorBox(
+            title = "Impossibile caricare i questionari",
+            message = state.errorMessage,
+            modifier = modifier,
+        )
 
         else -> {
             Column(
@@ -137,7 +105,16 @@ fun SourcesScreen(
                         .padding(horizontal = Spacing.screen, vertical = Spacing.sm),
                     horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
-                    TextButton(onClick = onBack) { Text("← Torna ai questionari") }
+                    TextButton(onClick = onBack) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            //Il testo accanto descrive già l'azione: per TalkBack l'icona è decorativa
+                            contentDescription = null,
+                            modifier = Modifier.size(18.dp),
+                        )
+                        Spacer(Modifier.width(Spacing.xs))
+                        Text("Torna ai questionari")
+                    }
                 }
 
             }
@@ -147,26 +124,26 @@ fun SourcesScreen(
 
 @Preview
 @Composable
-fun SourcesScreenPreview() {
+private fun SourcesScreenPreview() {
     PatientKioskTheme {
         Scaffold(
             modifier = Modifier.fillMaxSize(),
             topBar = { KioskTopBar() }
         ) { innerPadding ->
             SourcesScreen(
-                state = QuestionnaireListUiState(
+                state = QuestionnaireCatalogUiState(
                     isLoading = false,
                     questionnaires = listOf(
                         QuestionnaireSummary(
                             "DLQI", "Dermatology Life Quality Index",
                             "Impatto della malattia della pelle sulla qualità della vita.",
-                            "WHO-5 Well-Being Index, WHO Regional Office for Europe, 1998.",
+                            "Finlay AY, Khan GK. Dermatology Life Quality Index (DLQI), Clin Exp Dermatol 1994.",
                             10
                         ),
                         QuestionnaireSummary(
                             "WHO-5", "WHO-5 Well-Being Index",
                             "Benessere psicologico nelle ultime due settimane.",
-                            "Finlay AY, Khan GK. Dermatology Life Quality Index (DLQI), Clin Exp Dermatol 1994.",
+                            "WHO-5 Well-Being Index, WHO Regional Office for Europe, 1998.",
                             5
                         ),
                     )

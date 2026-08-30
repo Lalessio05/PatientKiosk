@@ -21,8 +21,8 @@ import com.lalessio.patientkiosk.ui.patientCode.PatientCodeViewModel
 import com.lalessio.patientkiosk.ui.question.QuestionScreen
 import com.lalessio.patientkiosk.ui.question.QuestionViewModel
 import com.lalessio.patientkiosk.ui.questionnaireList.QuestionnaireListScreen
-import com.lalessio.patientkiosk.ui.questionnaireList.QuestionnaireListUiState
-import com.lalessio.patientkiosk.ui.questionnaireList.QuestionnaireListViewModel
+import com.lalessio.patientkiosk.ui.questionnaireCatalog.QuestionnaireCatalogUiState
+import com.lalessio.patientkiosk.ui.questionnaireCatalog.QuestionnaireCatalogViewModel
 import com.lalessio.patientkiosk.ui.result.ResultScreen
 import com.lalessio.patientkiosk.ui.result.ResultViewModel
 import com.lalessio.patientkiosk.ui.sendToDoctor.SentToDoctorScreen
@@ -70,8 +70,8 @@ fun KioskNavGraph(
             Routes.QUESTIONNAIRE_LIST_ROUTE,
             arguments = listOf(navArgument(Routes.ARG_PATIENT_CODE) { type = NavType.StringType }),
         ) {
-            val viewModel: QuestionnaireListViewModel = hiltViewModel()
-            val uiState: QuestionnaireListUiState by viewModel.uiState.collectAsStateWithLifecycle()
+            val viewModel: QuestionnaireCatalogViewModel = hiltViewModel()
+            val uiState: QuestionnaireCatalogUiState by viewModel.uiState.collectAsStateWithLifecycle()
 
             val patientCode: String = it.arguments?.getString(Routes.ARG_PATIENT_CODE) ?: ""
 
@@ -85,8 +85,8 @@ fun KioskNavGraph(
             )
         }
         composable(Routes.SOURCES_ROUTE) {
-            val viewModel: QuestionnaireListViewModel = hiltViewModel()
-            val uiState: QuestionnaireListUiState by viewModel.uiState.collectAsStateWithLifecycle()
+            val viewModel: QuestionnaireCatalogViewModel = hiltViewModel()
+            val uiState: QuestionnaireCatalogUiState by viewModel.uiState.collectAsStateWithLifecycle()
 
             SourcesScreen(
                 state = uiState,

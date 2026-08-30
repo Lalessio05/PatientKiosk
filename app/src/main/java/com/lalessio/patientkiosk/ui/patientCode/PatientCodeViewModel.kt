@@ -56,7 +56,6 @@ class PatientCodeViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            //#TODO Fare pagina di errore e loading
             try {
                 questionnaireRepository.ensureImported()
             } catch (e: Exception) {
@@ -65,6 +64,7 @@ class PatientCodeViewModel @Inject constructor(
                 }
                 return@launch
             }
+            _uiState.update { it.copy(isLoading = false) }
 
             sessionRepository.observeResumable().collect { resumableSession ->
                 if (resumableSession == null) {

@@ -12,13 +12,19 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -29,7 +35,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.lalessio.patientkiosk.domain.AnswerOption
+import com.lalessio.patientkiosk.ui.components.KioskTopBar
+import com.lalessio.patientkiosk.ui.theme.PatientKioskTheme
 import com.lalessio.patientkiosk.ui.theme.Spacing
 import kotlinx.coroutines.delay
 import kotlin.time.Duration.Companion.milliseconds
@@ -133,7 +143,16 @@ fun QuestionScreen(
                 )
             }
             Spacer(Modifier.height(Spacing.xs))
-            TextButton(onClick = onPrevious) { Text("← Indietro") }
+            TextButton(onClick = onPrevious) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    //Il testo accanto descrive già l'azione: per TalkBack l'icona è decorativa
+                    contentDescription = null,
+                    modifier = Modifier.size(18.dp),
+                )
+                Spacer(Modifier.width(Spacing.xs))
+                Text("Indietro")
+            }
         }
     }
 }
@@ -172,5 +191,63 @@ private fun AnswerButton(
     }
 }
 
-//#TODO Fare varie preview
+//Stato di comodo per le preview: un WHO-5 a metà compilazione
+private fun previewState(
+    currentIndex: Int = 2,
+    selectedOption: Int? = null,
+) = QuestionUiState(
+    questionnaireName = "WHO-5 Well-Being Index",
+    questionnaireId = "WHO-5",
+    recall = "Nelle ultime due settimane",
+    questionText = "Mi sono sentito allegro e di buon umore",
+    options = listOf(
+        AnswerOption("Sempre", 5),
+        AnswerOption("La maggior parte del tempo", 4),
+        AnswerOption("Più della metà del tempo", 3),
+        AnswerOption("Meno della metà del tempo", 2),
+        AnswerOption("Ogni tanto", 1),
+        AnswerOption("Mai", 0),
+    ),
+    selectedOption = selectedOption,
+    currentIndex = currentIndex,
+    questionCount = 5,
+    isLoading = false,
+)
+
+@Composable
+private fun QuestionScreenPreviewScaffold(state: QuestionUiState) {
+    PatientKioskTheme {
+        Scaffold(
+            modifier = Modifier.fillMaxSize(),
+            topBar = { KioskTopBar(text = "WHO-5 · PZ-4192") },
+        ) { innerPadding ->
+            QuestionScreen(
+                state = state,
+                onAnswerSelected = {},
+                onNext = {},
+                onPrevious = {},
+                modifier = Modifier.padding(innerPadding),
+            )
+        }
+    }
+}
+
+@Preview(widthDp = 412, heightDp = 892)
+@Composable
+private fun QuestionScreenPreview() {
+    QuestionScreenPreviewScaffold(previewState())
+}
+
+@Preview(widthDp = 412, heightDp = 892)
+@Composable
+private fun QuestionScreenAnsweredPreview() {
+    QuestionScreenPreviewScaffold(previewState(selectedOption = 1))
+}
+
+@Preview(widthDp = 412, heightDp = 892)
+@Composable
+private fun QuestionScreenLastQuestionPreview() {
+    QuestionScreenPreviewScaffold(previewState(currentIndex = 4, selectedOption = 3))
+}
+
 //#TODO Mancano le animazioni, è bruttino così

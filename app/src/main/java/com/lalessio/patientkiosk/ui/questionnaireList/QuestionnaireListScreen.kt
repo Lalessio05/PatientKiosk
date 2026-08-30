@@ -1,7 +1,6 @@
 package com.lalessio.patientkiosk.ui.questionnaireList
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -11,11 +10,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ErrorOutline
-import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -23,64 +22,34 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.lalessio.patientkiosk.data.repo.QuestionnaireSummary
+import com.lalessio.patientkiosk.ui.components.ErrorBox
 import com.lalessio.patientkiosk.ui.components.KioskTopBar
+import com.lalessio.patientkiosk.ui.components.LoadingBox
 import com.lalessio.patientkiosk.ui.components.QuestionnaireCard
+import com.lalessio.patientkiosk.ui.questionnaireCatalog.QuestionnaireCatalogUiState
 import com.lalessio.patientkiosk.ui.theme.PatientKioskTheme
 import com.lalessio.patientkiosk.ui.theme.Spacing
 
 @Composable
 fun QuestionnaireListScreen(
-    state: QuestionnaireListUiState,
+    state: QuestionnaireCatalogUiState,
     onQuestionnaireSelected: (String) -> Unit,
     onBack: () -> Unit,
     onSources: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     when {
-        //#TODO Estrarre in un componente
-        state.isLoading -> {
-            Box(modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                CircularProgressIndicator()
-            }
-        }
+        state.isLoading -> LoadingBox(modifier)
 
-        //#TODO Estrarre in un componente
-        state.errorMessage != null -> {
-            Column(
-                modifier = modifier
-                    .fillMaxSize()
-                    .padding(Spacing.screen),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                Icon(
-                    imageVector = Icons.Outlined.ErrorOutline,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.error,
-                    modifier = Modifier.size(64.dp),
-                )
-
-                Spacer(Modifier.height(Spacing.lg))
-                Text(
-                    text = "Impossibile caricare i questionari",
-                    style = MaterialTheme.typography.titleLarge,
-                    textAlign = TextAlign.Center,
-                )
-                Spacer(Modifier.height(Spacing.sm))
-                Text(
-                    text = state.errorMessage,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    textAlign = TextAlign.Center,
-                )
-            }
-        }
+        state.errorMessage != null -> ErrorBox(
+            title = "Impossibile caricare i questionari",
+            message = state.errorMessage,
+            modifier = modifier,
+        )
 
         else -> {
             Column(
@@ -123,7 +92,16 @@ fun QuestionnaireListScreen(
                         .padding(horizontal = Spacing.screen, vertical = Spacing.sm),
                     horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
-                    TextButton(onClick = onBack) { Text("← Cambia codice") }
+                    TextButton(onClick = onBack) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            //Il testo accanto descrive già l'azione: per TalkBack l'icona è decorativa
+                            contentDescription = null,
+                            modifier = Modifier.size(18.dp),
+                        )
+                        Spacer(Modifier.width(Spacing.xs))
+                        Text("Cambia codice")
+                    }
                     TextButton(onClick = onSources) { Text("Fonti") }
                 }
 
@@ -142,7 +120,7 @@ private fun QuestionnaireListScreenLoadingPreview() {
             topBar = { KioskTopBar() }
         ) { innerPadding ->
             QuestionnaireListScreen(
-                state = QuestionnaireListUiState(isLoading = true),
+                state = QuestionnaireCatalogUiState(isLoading = true),
                 onQuestionnaireSelected = {},
                 onBack = {},
                 onSources = {},
@@ -161,7 +139,7 @@ private fun QuestionnaireListScreenErrorPreview() {
             topBar = { KioskTopBar() }
         ) { innerPadding ->
             QuestionnaireListScreen(
-                state = QuestionnaireListUiState(isLoading = false, errorMessage = "Errore"),
+                state = QuestionnaireCatalogUiState(isLoading = false, errorMessage = "Errore"),
                 onQuestionnaireSelected = {},
                 onBack = {},
                 onSources = {},
@@ -180,7 +158,7 @@ private fun QuestionnaireListScreenPreview() {
             topBar = { KioskTopBar() }
         ) { innerPadding ->
             QuestionnaireListScreen(
-                state = QuestionnaireListUiState(
+                state = QuestionnaireCatalogUiState(
                     isLoading = false,
                     questionnaires = listOf(
                         QuestionnaireSummary(

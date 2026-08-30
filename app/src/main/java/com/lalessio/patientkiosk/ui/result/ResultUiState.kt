@@ -7,5 +7,5 @@ data class ResultUiState(
     val patientCode: String = "",
     val blocks: List<ScoreBlock> = emptyList(),
     val isLoading: Boolean = true,
-    val isQuesionnaireIncomplete: Boolean = false,
+    val isQuestionnaireIncomplete: Boolean = false,
 )

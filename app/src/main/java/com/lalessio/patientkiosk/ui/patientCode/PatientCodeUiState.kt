@@ -13,8 +13,8 @@ data class ResumableSession(
 data class PatientCodeUiState(
     val patientCode: String = "",
     val showError: Boolean = false,
-    val isLoading: Boolean = false,
-    val errorMessage: String = "",
+    val isLoading: Boolean = true,
+    val errorMessage: String? = null,
     val resumableSession: ResumableSession? = null
 ) {
     //Non memorizzato, calcolato come prop a ogni chiamata, com'è giusto che sia.

@@ -25,7 +25,9 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.lalessio.patientkiosk.ui.components.ErrorBox
 import com.lalessio.patientkiosk.ui.components.KioskTopBar
+import com.lalessio.patientkiosk.ui.components.LoadingBox
 import com.lalessio.patientkiosk.ui.theme.PatientKioskTheme
 import com.lalessio.patientkiosk.ui.theme.Spacing
 
@@ -39,6 +41,19 @@ fun PatientCodeScreen(
     onDiscardSession: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    if (state.isLoading) {
+        LoadingBox(modifier)
+        return
+    }
+    if (state.errorMessage != null) {
+        ErrorBox(
+            title = "Impossibile caricare i questionari",
+            message = state.errorMessage,
+            modifier = modifier,
+        )
+        return
+    }
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -176,6 +191,7 @@ private fun PatientCodeScreenResumePreview() {
             PatientCodeScreen(
                 modifier = Modifier.padding(innerPadding),
                 state = PatientCodeUiState(
+                    isLoading = false,
                     resumableSession = ResumableSession(
                         sessionId = 1,
                         patientCode = "PZ-4192",
@@ -191,4 +207,40 @@ private fun PatientCodeScreenResumePreview() {
         }
     }
 }
-//#TODO Fare preview della pagina con resume di un questionario
+
+
+@Preview(widthDp = 412, heightDp = 892)
+@Composable
+private fun PatientCodeScreenPreview() {
+    PatientKioskTheme {
+        Scaffold(
+            modifier = Modifier.fillMaxSize(),
+            topBar = { KioskTopBar() },
+        ) { innerPadding ->
+            PatientCodeScreen(
+                modifier = Modifier.padding(innerPadding),
+                state = PatientCodeUiState(isLoading = false),
+                onCodeChange = {}, onRandomCode = {}, onForward = {},
+                onResume = {}, onDiscardSession = {},
+            )
+        }
+    }
+}
+
+@Preview(widthDp = 412, heightDp = 892)
+@Composable
+private fun PatientCodeScreenErrorPreview() {
+    PatientKioskTheme {
+        Scaffold(
+            modifier = Modifier.fillMaxSize(),
+            topBar = { KioskTopBar() },
+        ) { innerPadding ->
+            PatientCodeScreen(
+                modifier = Modifier.padding(innerPadding),
+                state = PatientCodeUiState(patientCode = "PZ", showError = true, isLoading = false),
+                onCodeChange = {}, onRandomCode = {}, onForward = {},
+                onResume = {}, onDiscardSession = {},
+            )
+        }
+    }
+}
